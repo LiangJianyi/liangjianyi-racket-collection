@@ -47,3 +47,9 @@
 
 (define (matrix-element matrix row-index column-index)
   (vector-ref [vector-ref matrix column-index] row-index))
+
+(define (matrix? matrix)
+  (if [and (vector? matrix)
+           (vector? (vector-ref matrix 0))]
+      #t
+      #f))
