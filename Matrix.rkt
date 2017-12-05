@@ -53,3 +53,29 @@
            (vector? (vector-ref matrix 0))]
       #t
       #f))
+
+(define (matrix-multipli-with-vector matrix vec)
+  (let ([result (make-vector (matrix-row-count matrix))]
+        [element 0])
+    (do (;[result-index 0 (+ result-index 1)]
+         [row-index 0 (+ row-index 1)])
+      ([= row-index (matrix-row-count matrix)] result)
+      (do ([column-index 0 (+ column-index 1)])
+        ([= column-index (matrix-column-count matrix)])
+        (set! element (+ element
+                         (* (matrix-element matrix row-index column-index)
+                            (vector-ref vec column-index))))))))
+
+(define (matrix-multiplication obj1 obj2)
+  (cond [(matrix? obj1)
+         (cond [(vector? obj2)
+                (matrix-multipli-with-vector obj1 obj2)]
+               [(matrix? obj2)
+                (let ([result (make-vector (matrix-column-count obj2))])
+                  (do ([column-index 0 (+ column-index 1)])
+                    ([= column-index (matrix-column-count obj2)] result)
+                    (vector-set! result column-index
+                                 (matrix-multipli-with-vector obj1 [vector-ref obj2 column-index]))))]
+               [else "obj2 is not matrix or vector."])]
+        ;[]
+        [else (error "obj1 is not matrix or vector.")]))
