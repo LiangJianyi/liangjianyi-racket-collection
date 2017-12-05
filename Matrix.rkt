@@ -1,12 +1,11 @@
 #lang racket
 
-;[b11...b12...b13]   [a11...a12...a13]
-;[b21...b22...b23]   [a21...a22...a23]
-;[b31...b32...b33]   [a31...a32...a33]
-;[b41...b42...b43]
-;[b51...b52...b53]
-;
-;
+(provide make-matrix)
+(provide print-matrix)
+(provide matrix-row-count)
+(provide matrix-column-count)
+(provide matrix-element)
+(provide matrix-multiplication)
 
 (define (make-matrix row column . init)
   (define matrix (make-vector column))
