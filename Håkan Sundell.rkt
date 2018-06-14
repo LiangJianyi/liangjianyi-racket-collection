@@ -26,3 +26,19 @@
             #+development
             (check-constant-queue-ok, queue-var)
             ,node)))
+
+
+#+Lockfree-Deque
+(defmacro constant-queue-constant-queue-push-right (constant-queue thing)
+    (let* ((queue-var (if (symbolp constant-queue)
+                            constant-queue
+                            (make-symbol "QUEUE")))
+            (prev (make-symbol "PREV"))
+            (next (make-symbol "NEXT"))
+            (node (make-symbol "NODE")))
+        '(let* (@(if (neq queue-var constant-queue)
+                        '((,queue-var, constant-queue)))
+                (,node (create-queue-element, thing))
+                (,next (dereference-node (constant-queue-tail, queue-var)))
+                (,prev (dereference-link (queue-previous-element, next))))
+            #+development (check-constant-queue-ok, queue-var), node)))
