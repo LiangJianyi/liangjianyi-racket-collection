@@ -21,25 +21,6 @@
                              *saved*))
                  (dft-node (car tree)))))))
 
-(define (dft-node-and-print-log tree)
-  (fprintf (current-output-port) "Into dft-node, tree: ~a" tree)
-  (cond ((null? tree)
-         (fprintf (current-output-port) "tree is null.")
-         (restart))
-        ((not (pair? tree))
-         (displayln "tree is not pair.")
-         tree)
-        (else (call-with-current-continuation
-               (lambda (cc)
-                 (displayln "Into continuation.")
-                 (set! *saved*
-                       (cons (lambda ()
-                               (display "Executing cc. (cc (dft-node ")(display (cdr tree))(displayln "))")
-                               (cc (dft-node (cdr tree))))
-                             *saved*))
-                 (fprintf (current-output-port) "(dft-node ~a)")
-                 (dft-node (car tree)))))))
-
 (define (restart)
   (if (null? *saved*)
       'done
